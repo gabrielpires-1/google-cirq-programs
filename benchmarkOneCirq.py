@@ -12,4 +12,3 @@ result = simulator.run(circuit, repetitions=1)
 
 # Imprimir o resultado
 print(result)
- 
