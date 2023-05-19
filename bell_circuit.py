@@ -1,6 +1,9 @@
 import cirq
 import matplotlib.pyplot as plt
+import cirq_ionq as ionq
 
+APIKEY = "my_API_key"
+ 
 # Crie um circuito que gera um Bell State
 # 1/sqrt(2) * ( |00⟩ + |11⟩ )
 
@@ -13,18 +16,15 @@ bell_circuit.append(cirq.CNOT(q0, q1)) # adiciona a porta CNOT ao circuito, cont
 print(bell_circuit)
 print('\n')
 
-# Inicializa o simulador
-simulator = cirq.Simulator()
-
-print('Simulate the circuit:')
-results = simulator.simulate(bell_circuit) # simula o circuito 'bell_circuit' no simulador
-print(results) 
+# Inicializa o simulador da IonQ
+service = ionq.Service(api_key=APIKEY)
 
 # Realiza a operação de medição no circuito, com a chave de identificação 'result'
 bell_circuit.append(cirq.measure(q0, q1, key='result'))
 
 # Executa o circuito 1000 vezes e armazena os resultados em 'samples'
-samples = simulator.run(bell_circuit, repetitions=1000)
+# roda o circuito 'bell_circuit' no simulador da IonQ
+samples = service.run(bell_circuit, repetitions=100, name='bell-circuit-job-1', target='simulator')
 
 # Mostra o circuito agora com a operação 'medição'
 print(bell_circuit)
